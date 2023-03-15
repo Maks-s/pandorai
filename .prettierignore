@@ -1,0 +1,33 @@
+#######################
+### .gitignore copy ###
+#######################
+
+# Dependency directories
+node_modules
+
+# Logs
+*.log*
+
+# Cache
+.nuxt
+.nitro
+.cache
+
+# Build/Generation
+.output
+dist
+
+# MacOS
+.DS_Store
+
+# IDE / Editor
+.idea
+
+# Vim swap files
+*.swp
+
+##############
+### OTHERS ###
+##############
+
+pnpm-lock.yaml

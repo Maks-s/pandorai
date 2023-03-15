@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "scripts": {
+    "nuxt": "nuxt",
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext \".ts,.js,.vue\" --ignore-path .prettierignore && prettier --write --list-different .",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config-typescript": "^12.0.0",
+    "@nuxtjs/eslint-module": "^4.0.2",
+    "@pinia/nuxt": "^0.4.7",
+    "@typescript-eslint/parser": "^5.55.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nuxt": "^3.2.3",
+    "prettier": "^2.8.4",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@huntersofbook/naive-ui-nuxt": "^0.7.1",
+    "@iconify-icons/ph": "^1.2.4",
+    "@nuxtjs/i18n": "8.0.0-beta.10",
+    "@unocss/nuxt": "^0.50.4",
+    "@unocss/reset": "^0.50.4",
+    "@vueuse/nuxt": "^9.13.0",
+    "nuxt-icon": "^0.3.2",
+    "openai": "^3.2.1",
+    "pinia": "^2.0.33"
+  }
+}

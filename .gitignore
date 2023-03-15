@@ -1,0 +1,24 @@
+# Dependency directories
+node_modules
+
+# Logs
+*.log*
+
+# Cache
+.nuxt
+.nitro
+.cache
+
+# Build/Generation
+.output
+dist
+
+# MacOS
+.DS_Store
+
+# IDE / Editor
+.idea
+.vscode
+
+# Vim swap files
+*.swp
