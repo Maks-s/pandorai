@@ -64,6 +64,7 @@ const themeOverrides: GlobalThemeOverrides = {
     modalColor: themeColors.base300,
     cardColor: themeColors.base100,
     tableColor: themeColors.neutral,
+    placeholderColor: themeColors.border,
     popoverColor: themeColors.neutral,
     tagColor: themeColors.base300,
     inputColor: themeColors.base100,
