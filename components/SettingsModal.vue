@@ -19,16 +19,33 @@
         <label class="label">
           <span class="label-text">{{ $t('OPENAI_API_KEY') }}</span>
         </label>
-        <n-input type="text" placeholder="sk-..." />
+        <n-input
+          v-model:value.trim="apiKeyInput"
+          type="text"
+          placeholder="sk-..."
+          tabindex="0"
+        />
 
-        <n-button type="success">
-          {{ $t('SAVE') }}
-        </n-button>
+        <div class="mt-5 flex justify-end">
+          <n-button type="success" @click="save">
+            {{ $t('SAVE') }}
+          </n-button>
+        </div>
       </n-card>
     </n-modal>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useSettingsStore } from '~~/stores/settings';
+
 const show = ref(false);
+const settingsStore = useSettingsStore();
+const apiKeyInput = ref('');
+
+apiKeyInput.value = settingsStore.apiKey.valueOf();
+
+function save() {
+  settingsStore.apiKey = apiKeyInput.value;
+}
 </script>
