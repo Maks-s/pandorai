@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     '@huntersofbook/naive-ui-nuxt',
     '@unocss/nuxt',
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
     ['@nuxtjs/eslint-module', { ignorePath: '.prettierignore' }],
   ],
 

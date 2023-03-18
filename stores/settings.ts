@@ -1,7 +1,15 @@
 import { defineStore } from 'pinia';
 
-export const useSettingsStore = defineStore('settings', () => {
-  const apiKey = ref('sk-...');
+export const useSettingsStore = defineStore(
+  'settings',
+  () => {
+    const apiKey = ref('');
 
-  return { apiKey };
-});
+    return { apiKey };
+  },
+  {
+    persist: {
+      storage: persistedState.localStorage,
+    },
+  }
+);
