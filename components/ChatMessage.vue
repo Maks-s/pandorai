@@ -9,7 +9,7 @@
       </n-avatar>
     </div>
 
-    <ins class="no-underline w-3xl">
+    <ins class="whitespace-pre-wrap no-underline w-3xl">
       {{ msg.content }}
     </ins>
   </div>
