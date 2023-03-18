@@ -1,4 +1,5 @@
-import { presetAttributify, presetUno, transformerDirectives } from 'unocss';
+import { presetUno, presetAttributify, presetIcons } from 'unocss';
+import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -17,19 +18,25 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    'nuxt-icon',
     '@nuxtjs/i18n',
     '@huntersofbook/naive-ui-nuxt',
     '@unocss/nuxt',
-    ['@nuxtjs/eslint-module', { ignorePath: '.prettierignore' }],
     '@pinia/nuxt',
+    ['@nuxtjs/eslint-module', { ignorePath: '.prettierignore' }],
   ],
 
   ssr: false,
 
   unocss: {
-    transformers: [transformerDirectives()],
-    presets: [presetUno(), presetAttributify()],
+    presets: [
+      presetUno(),
+      presetAttributify(),
+      presetIcons({
+        collections: {
+          custom: FileSystemIconLoader('./assets/icons'),
+        },
+      }),
+    ],
   },
 
   typescript: {

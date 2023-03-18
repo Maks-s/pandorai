@@ -1,7 +1,7 @@
 <template>
   <div>
     <n-button block class="!justify-start" @click="show = true">
-      <Icon name="ph:gear" size="1.2rem" />
+      <i class="i-ph-gear h-5 w-5" />
       <span class="pl-2 pb-[2px]">{{ $t('SETTINGS') }}</span>
     </n-button>
 

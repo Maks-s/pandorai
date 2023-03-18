@@ -6,7 +6,7 @@
 
     <div class="grid grid-cols-3 pt-20 gap-8 w-full md:max-w-2xl lg:max-w-3xl">
       <div v-for="example in examples" :key="example.title" class="text-center">
-        <Icon :name="example.icon" size="1.7rem" />
+        <i :class="'inline-block w-6 h-6 ' + example.icon" />
         <h4 class="text-lg font-bold pb-3 pt-1">
           {{ example.title }}
         </h4>
@@ -40,7 +40,7 @@
 <script setup lang="ts">
 const examples = [
   {
-    icon: 'ph:chats',
+    icon: 'i-ph-chats',
     title: 'Examples',
     examples: [
       'Explain quantum computing in simple terms',
@@ -49,7 +49,7 @@ const examples = [
     ],
   },
   {
-    icon: 'ph:lightning',
+    icon: 'i-ph-lightning',
     title: 'Capabilities',
     descriptions: [
       'Remembers what user said earlier in the conversation',
@@ -58,7 +58,7 @@ const examples = [
     ],
   },
   {
-    icon: 'ph:warning',
+    icon: 'i-ph-warning',
     title: 'Limitations',
     descriptions: [
       'May occasionally generate incorrect information',
