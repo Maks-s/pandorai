@@ -47,5 +47,6 @@ apiKeyInput.value = settingsStore.apiKey.valueOf();
 
 function save() {
   settingsStore.apiKey = apiKeyInput.value;
+  show.value = false;
 }
 </script>
