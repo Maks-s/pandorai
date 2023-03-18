@@ -77,27 +77,3 @@ const themeOverrides: GlobalThemeOverrides = {
   },
 };
 </script>
-
-<style>
-:root {
-  --primary: v-bind('themeColors.primary');
-  --primary-focus: v-bind('themeColors.primaryFocus')
-  --primary-content: v-bind('themeColors.primaryContent')
-  --secondary: v-bind('themeColors.secondary')
-  --secondary-focus: v-bind('themeColors.secondaryFocus')
-  --secondary-content: v-bind('themeColors.secondaryContent')
-  --accent: v-bind('themeColors.accent')
-  --accent-focus: v-bind('themeColors.accentFocus')
-  --accent-content: v-bind('themeColors.accentContent')
-  --neutral: v-bind('themeColors.neutral')
-  --neutral-focus: v-bind('themeColors.neutralFocus')
-  --base-100: v-bind('themeColors.base100')
-  --base-200: v-bind('themeColors.base200')
-  --base-300: v-bind('themeColors.base300')
-  --info: v-bind('themeColors.info')
-  --success: v-bind('themeColors.success')
-  --warning: v-bind('themeColors.warning')
-  --error: v-bind('themeColors.error')
-  --text: v-bind('themeColors.text')
-}
-</style>
