@@ -50,42 +50,53 @@ export const OpenAI = {
     const decoder = new TextDecoder();
 
     let finalText = '';
-    while (true) {
+    let finished = false;
+    while (!finished) {
       const { done, value } = await bodyReader.read();
       if (done) {
         break;
       }
 
-      // Convert to UTF-8 and remove "data: "
-      const jsonText = decoder.decode(value).slice(6);
+      const data = decoder.decode(value); // .slice(6);
 
-      // EOT
-      if (jsonText === '[DATA]') {
-        break;
-      }
+      for (const line of data.split('\n')) {
+        // Convert to UTF-8 and remove "data: "
+        const jsonText = line.slice(6).trim();
 
-      try {
-        const parsed = JSON.parse(jsonText);
-        // There shouldn't be multiples choices, though I'm not 100% sure
-        const content = parsed.choices[0].delta.content;
-        if (content) {
-          if (options.chunk) {
-            options.chunk(content);
+        // Empty line
+        if (!jsonText) {
+          continue;
+        }
+
+        // EOT
+        if (jsonText === '[DONE]') {
+          finished = true;
+          break;
+        }
+
+        try {
+          const parsed = JSON.parse(jsonText);
+          // There shouldn't be multiples choices, though I'm not 100% sure
+          const content = parsed.choices[0].delta.content;
+          if (content) {
+            if (options.chunk) {
+              options.chunk(content);
+            }
+
+            finalText += content;
+          }
+        } catch (e) {
+          const error = new Error("Couldn't parse data sent by server", {
+            cause: e,
+          });
+
+          // No handlin' ? That's a paddlin'
+          if (!options.error) {
+            throw error;
           }
 
-          finalText += content;
+          options.error(error);
         }
-      } catch (e) {
-        const error = new Error("Couldn't parse data sent by server", {
-          cause: e,
-        });
-
-        // No handlin' ? That's a paddlin'
-        if (!options.error) {
-          throw error;
-        }
-
-        options.error(error);
       }
     }
 

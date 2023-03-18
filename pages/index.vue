@@ -4,18 +4,22 @@
       <ChatSidebar />
     </n-layout-sider>
 
-    <n-layout-content class="p-4">
+    <n-layout-content>
       <div class="flex flex-col flex-grow h-full">
-        <ChatEmpty class="flex-grow" />
+        <ChatEmpty v-if="chatStore.isEmpty" class="flex-grow" />
+        <ChatConversation v-else class="flex-grow" />
 
-        <n-input
-          v-model:value="textToSend"
-          type="textarea"
-          tabindex="0"
-          rows="1"
-          class="textarea textarea-secondary resize-none"
-          @keyup.enter="displayChat"
-        />
+        <div class="p-4">
+          <n-input
+            v-model:value="textToSend"
+            type="textarea"
+            :resizable="false"
+            rows="1"
+            tabindex="0"
+            class="textarea textarea-secondary"
+            @keyup.enter="displayChat"
+          />
+        </div>
       </div>
     </n-layout-content>
   </n-layout>
@@ -25,9 +29,9 @@
 import { useChatStore } from '~~/stores/chat';
 
 const textToSend = ref<string>('');
+const chatStore = useChatStore();
 
 function displayChat() {
-  const settingsStore = useChatStore();
-  settingsStore.sendMessage(textToSend.value);
+  chatStore.sendMessage(textToSend.value);
 }
 </script>
