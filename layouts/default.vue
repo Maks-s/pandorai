@@ -1,13 +1,11 @@
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
-    <n-theme-editor>
-      <slot />
-    </n-theme-editor>
+    <slot />
   </n-config-provider>
 </template>
 
 <script setup lang="ts">
-import { GlobalThemeOverrides, NThemeEditor } from 'naive-ui';
+import { GlobalThemeOverrides } from 'naive-ui';
 
 const themeColors = {
   primary: '#38bdf8',
