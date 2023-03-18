@@ -9,47 +9,95 @@
 <script setup lang="ts">
 import { GlobalThemeOverrides, NThemeEditor } from 'naive-ui';
 
+const themeColors = {
+  primary: '#38bdf8',
+  primaryFocus: '#08a5eb',
+  primaryContent: '#002a3d',
+  secondary: '#818cf8',
+  secondaryFocus: '#3a4bf4',
+  secondaryContent: '#00074b',
+  accent: '#f471b5',
+  accentFocus: '#ef2f92',
+  accentContent: '#470025',
+  neutral: '#1e293b',
+  neutralFocus: '#273449',
+  base100: '#0f172a',
+  base200: '#0e1526',
+  base300: '#0c1322',
+  info: '#0ca5e9',
+  success: '#2dd4bf',
+  warning: '#f4bf50',
+  error: '#fb7085',
+  border: '#34466f',
+  text: '#b4c6ef',
+};
+
 const themeOverrides: GlobalThemeOverrides = {
   common: {
-    baseColor: '#ffffffff',
-    primaryColor: '#38bdf8FF',
-    primaryColorHover: '#08a5ebFF',
-    primaryColorPressed: '#08a5ebFF',
-    primaryColorSuppl: '#002a3dFF',
-    infoColor: '#0ca5e9FF',
-    infoColorHover: '#0ca5e9ff',
-    infoColorPressed: '#0ca5e9ff',
-    infoColorSuppl: '#0ca5e9ff',
-    successColor: '#2dd4bfFF',
-    successColorHover: '#2dd4bfFF',
-    successColorPressed: '#2dd4bfFF',
-    successColorSuppl: '#2dd4bfFF',
-    warningColor: '#f4bf50FF',
-    warningColorHover: '#f4bf50FF',
-    warningColorPressed: '#f4bf50FF',
-    warningColorSuppl: '#f4bf50FF',
-    errorColor: '#fb7085FF',
-    errorColorHover: '#fb7085FF',
-    errorColorPressed: '#fb7085FF',
-    errorColorSuppl: '#fb7085FF',
-    textColorBase: '#b4c6efFF',
-    textColor1: '#b5cdf5FF',
-    textColor2: '#b4c6efFF',
-    textColor3: '#b5cdf5ff',
-    bodyColor: '#0f172aFF',
-    modalColor: '#0e1526FF',
-    cardColor: '#1e293bFF',
-    tableColor: '#1e293bFF',
-    popoverColor: '#1e293bFF',
-    tagColor: '#0c1322FF',
-    inputColor: '#1e293bff',
-    codeColor: '#1e293bff',
-    tabColor: '#0f172aff',
-    actionColor: '#1e293bff',
-    tableHeaderColor: '#1e293bff',
-    hoverColor: '#f3f3f5',
-    borderColor: '#b5cdf5FF',
-    dividerColor: '#b5cdf5FF',
+    avatarColor: themeColors.secondary,
+    baseColor: 'white',
+    primaryColor: themeColors.primary,
+    primaryColorHover: themeColors.primaryFocus,
+    primaryColorPressed: themeColors.primaryFocus,
+    primaryColorSuppl: themeColors.primaryFocus,
+    infoColor: themeColors.info,
+    infoColorHover: themeColors.info,
+    infoColorPressed: themeColors.info,
+    infoColorSuppl: themeColors.info,
+    successColor: themeColors.success,
+    successColorHover: themeColors.success,
+    successColorPressed: themeColors.success,
+    successColorSuppl: themeColors.success,
+    warningColor: themeColors.warning,
+    warningColorHover: themeColors.warning,
+    warningColorPressed: themeColors.warning,
+    warningColorSuppl: themeColors.warning,
+    errorColor: themeColors.error,
+    errorColorHover: themeColors.error,
+    errorColorPressed: themeColors.error,
+    errorColorSuppl: themeColors.error,
+    textColorBase: themeColors.text,
+    textColor1: themeColors.text,
+    textColor2: themeColors.text,
+    textColor3: themeColors.text,
+    bodyColor: themeColors.neutral,
+    modalColor: themeColors.base300,
+    cardColor: themeColors.base100,
+    tableColor: themeColors.neutral,
+    popoverColor: themeColors.neutral,
+    tagColor: themeColors.base300,
+    inputColor: themeColors.base100,
+    codeColor: themeColors.neutral,
+    tabColor: themeColors.neutral,
+    actionColor: themeColors.neutral,
+    tableHeaderColor: themeColors.neutral,
+    hoverColor: themeColors.text,
+    borderColor: themeColors.border,
+    dividerColor: themeColors.text,
   },
 };
 </script>
+
+<style>
+:root {
+  --primary: v-bind('themeColors.primary');
+  --primary-focus: v-bind('themeColors.primaryFocus')
+  --primary-content: v-bind('themeColors.primaryContent')
+  --secondary: v-bind('themeColors.secondary')
+  --secondary-focus: v-bind('themeColors.secondaryFocus')
+  --secondary-content: v-bind('themeColors.secondaryContent')
+  --accent: v-bind('themeColors.accent')
+  --accent-focus: v-bind('themeColors.accentFocus')
+  --accent-content: v-bind('themeColors.accentContent')
+  --neutral: v-bind('themeColors.neutral')
+  --neutral-focus: v-bind('themeColors.neutralFocus')
+  --base-100: v-bind('themeColors.base100')
+  --base-200: v-bind('themeColors.base200')
+  --base-300: v-bind('themeColors.base300')
+  --info: v-bind('themeColors.info')
+  --success: v-bind('themeColors.success')
+  --warning: v-bind('themeColors.warning')
+  --error: v-bind('themeColors.error')
+  --text: v-bind('themeColors.text')
+}
+</style>
