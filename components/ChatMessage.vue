@@ -1,11 +1,8 @@
 <template>
-  <div :class="isAI ? 'bg-ai' : 'bg-user'" class="content p-5">
+  <div :class="getConfig().bgClass" class="content p-5">
     <div class="flex justify-end px-6">
       <n-avatar>
-        <i
-          :class="isAI ? 'i-custom-openai' : 'i-ph-user'"
-          class="block w-5 h-5"
-        />
+        <i :class="getConfig().icon" class="block w-5 h-5" />
       </n-avatar>
     </div>
 
@@ -19,14 +16,39 @@
 import { useThemeVars } from 'naive-ui';
 import { Message, MessageAuthor } from '~~/stores/chat';
 
+type MessageConfig = {
+  bgClass: string;
+  icon: string;
+};
+
 const props = defineProps<{ msg: Message }>();
-const isAI = props.msg.author === MessageAuthor.AI;
 const themeVars = useThemeVars();
+
+function getConfig(): MessageConfig {
+  switch (props.msg.author) {
+    case MessageAuthor.AI:
+      return { bgClass: 'bg-ai', icon: 'i-custom-openai' };
+
+    case MessageAuthor.SYSTEM:
+      return { bgClass: 'bg-system', icon: 'i-ph-monitor' };
+
+    case MessageAuthor.USER:
+      return { bgClass: 'bg-user', icon: 'i-ph-user' };
+  }
+}
 </script>
 
 <style scoped lang="scss">
 .bg-ai {
   background: v-bind('themeVars.modalColor');
+}
+
+.bg-system {
+  background: v-bind('themeVars.modalColor');
+
+  .n-avatar {
+    --n-color: v-bind('themeVars.borderColor') !important;
+  }
 }
 
 .bg-user {

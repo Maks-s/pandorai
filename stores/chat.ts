@@ -7,6 +7,7 @@ import { defineStore } from 'pinia';
 export enum MessageAuthor {
   USER,
   AI,
+  SYSTEM,
 }
 
 export interface Message {
@@ -15,28 +16,56 @@ export interface Message {
   id?: string;
 }
 
-export const useChatStore = defineStore('chat', () => {
-  const messages = reactive([
-    // {
-    //   author: MessageAuthor.USER,
-    //   content: "Yo, what's up ?",
-    // },
-    // {
-    //   author: MessageAuthor.AI,
-    //   content:
-    //     "I'm fine, and you ? Just so you know, I've graduated top of my class in the navy seels, and I'm a highly trained agent with lots of gorilla warfare under his belt. Don't fuck with me, or I will fuck with you.",
-    // },
-  ] as Message[]);
+const messageToOpenAiMessage = (msg: Message) => {
+  let role: ChatCompletionRequestMessageRoleEnum;
+  switch (msg.author) {
+    case MessageAuthor.AI:
+      role = ChatCompletionRequestMessageRoleEnum.Assistant;
+      break;
 
-  function messagesToConversation(): ChatCompletionRequestMessage[] {
-    // Convert our message representation with OpenAI's one
-    return messages.map((v) => ({
-      content: v.content,
-      role: ChatCompletionRequestMessageRoleEnum[
-        v.author === MessageAuthor.AI ? 'Assistant' : 'User'
-      ],
-    }));
+    case MessageAuthor.SYSTEM:
+      role = ChatCompletionRequestMessageRoleEnum.System;
+      break;
+
+    case MessageAuthor.USER:
+      role = ChatCompletionRequestMessageRoleEnum.User;
+      break;
+
+    default:
+      throw new Error("This error shouldn't appear");
   }
+
+  return {
+    content: msg.content,
+    role,
+  };
+};
+
+// Convert our message representation to OpenAI's one
+function messagesToConversation(
+  messages: Message[]
+): ChatCompletionRequestMessage[] {
+  const lastSystemMsg = findLast(
+    messages,
+    (v) => v.author === MessageAuthor.SYSTEM
+  );
+
+  const conv: ChatCompletionRequestMessage[] = [];
+  if (lastSystemMsg) {
+    conv.push(messageToOpenAiMessage(lastSystemMsg));
+  }
+
+  conv.push(
+    ...messages
+      .filter((v) => v.author !== MessageAuthor.SYSTEM)
+      .map((msg) => messageToOpenAiMessage(msg))
+  );
+
+  return conv;
+}
+
+export const useChatStore = defineStore('chat', () => {
+  const messages = reactive([] as Message[]);
 
   function sendMessage(txt: string) {
     messages.push({
@@ -50,7 +79,7 @@ export const useChatStore = defineStore('chat', () => {
     });
 
     OpenAI.sendMessage({
-      conversation: messagesToConversation(),
+      conversation: messagesToConversation(messages),
 
       chunk(chunk) {
         const lastMsg = messages[messages.length - 1];
@@ -59,7 +88,20 @@ export const useChatStore = defineStore('chat', () => {
     });
   }
 
+  function setSystemMessage(txt: string) {
+    const lastMsg = messages[messages.length - 1];
+    if (lastMsg?.author === MessageAuthor.SYSTEM) {
+      lastMsg.content = txt;
+      return;
+    }
+
+    messages.push({
+      author: MessageAuthor.SYSTEM,
+      content: txt,
+    });
+  }
+
   const isEmpty = computed(() => !messages.length);
 
-  return { isEmpty, messages, sendMessage };
+  return { isEmpty, messages, sendMessage, setSystemMessage };
 });

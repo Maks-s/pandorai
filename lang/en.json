@@ -3,5 +3,7 @@
   "SETTINGS": "Settings",
   "OPENAI_API_KEY": "OpenAI API Key",
   "SAVE": "Save",
-  "CHATGPT_WEBUI": "ChatGPT WebUI"
+  "CHATGPT_WEBUI": "ChatGPT WebUI",
+  "MESSAGE": "Message",
+  "SYSTEM_MESSAGE": "System message"
 }
