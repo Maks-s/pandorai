@@ -64,8 +64,11 @@ function sendChat() {
     return;
   }
 
+  if (chatStore.getSystemMessage?.content !== systemMsg.value) {
+    setSystemMessage();
+  }
+
   chatStore.sendMessage(msg.value);
-  showSystemMsg.value = false;
 }
 
 function setSystemMessage() {

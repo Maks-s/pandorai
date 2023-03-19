@@ -88,6 +88,10 @@ export const useChatStore = defineStore('chat', () => {
     });
   }
 
+  const getSystemMessage = computed(() => {
+    return findLast(messages, (v) => v.author === MessageAuthor.SYSTEM);
+  });
+
   function setSystemMessage(txt: string) {
     const lastMsg = messages[messages.length - 1];
     if (lastMsg?.author === MessageAuthor.SYSTEM) {
@@ -103,5 +107,5 @@ export const useChatStore = defineStore('chat', () => {
 
   const isEmpty = computed(() => !messages.length);
 
-  return { isEmpty, messages, sendMessage, setSystemMessage };
+  return { getSystemMessage, isEmpty, messages, sendMessage, setSystemMessage };
 });
