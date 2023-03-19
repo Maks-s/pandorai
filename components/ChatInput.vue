@@ -2,7 +2,7 @@
   <div class="p-4">
     <n-input
       v-if="showSystemMsg"
-      v-model:value="systemMsg"
+      v-model:value.trim="systemMsg"
       type="textarea"
       :placeholder="$t('SYSTEM_MESSAGE')"
       :resizable="false"
@@ -19,7 +19,7 @@
 
     <div class="flex items-center">
       <n-input
-        v-model:value="msg"
+        v-model:value.trim="msg"
         type="textarea"
         :placeholder="$t('MESSAGE')"
         :resizable="false"
@@ -69,6 +69,7 @@ function sendChat() {
   }
 
   chatStore.sendMessage(msg.value);
+  msg.value = '';
 }
 
 function setSystemMessage() {
