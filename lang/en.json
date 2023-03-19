@@ -1,4 +1,7 @@
 {
+  "CANCEL": "Cancel",
+  "DEFAULT_SYSTEM_MESSAGE": "Default system message",
+  "DEFAULT_SYSTEM_MESSAGE_PLACEHOLDER": "You're a helpful assistant / You're a fashion designer / ...",
   "NEW_CHAT": "New chat",
   "SETTINGS": "Settings",
   "OPENAI_API_KEY": "OpenAI API Key",

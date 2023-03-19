@@ -4,8 +4,9 @@ export const useSettingsStore = defineStore(
   'settings',
   () => {
     const apiKey = ref('');
+    const defaultSystemMessage = ref('');
 
-    return { apiKey };
+    return { apiKey, defaultSystemMessage };
   },
   {
     persist: {

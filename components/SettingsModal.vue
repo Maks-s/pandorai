@@ -16,18 +16,31 @@
           {{ $t('SETTINGS') }}
         </h1>
 
-        <label class="label">
-          <span class="label-text">{{ $t('OPENAI_API_KEY') }}</span>
-        </label>
-        <n-input
-          v-model:value.trim="apiKeyInput"
-          type="text"
-          placeholder="sk-..."
-          tabindex="0"
-        />
+        <n-form :model="settingsForm">
+          <n-form-item :label="$t('OPENAI_API_KEY')" path="apiKey">
+            <n-input
+              v-model:value.trim="settingsForm.apiKey"
+              type="text"
+              placeholder="sk-..."
+              autofocus
+            />
+          </n-form-item>
+
+          <n-form-item :label="$t('DEFAULT_SYSTEM_MESSAGE')">
+            <n-input
+              v-model:value="settingsForm.defaultSystemMessage"
+              type="text"
+              :placeholder="$t('DEFAULT_SYSTEM_MESSAGE_PLACEHOLDER')"
+            ></n-input>
+          </n-form-item>
+        </n-form>
 
         <div class="mt-5 flex justify-end">
-          <n-button type="success" @click="save">
+          <n-button @click="cancel">
+            {{ $t('CANCEL') }}
+          </n-button>
+
+          <n-button type="success" class="!ml-4" @click="save">
             {{ $t('SAVE') }}
           </n-button>
         </div>
@@ -41,12 +54,21 @@ import { useSettingsStore } from '~~/stores/settings';
 
 const show = ref(false);
 const settingsStore = useSettingsStore();
-const apiKeyInput = ref('');
 
-apiKeyInput.value = settingsStore.apiKey.valueOf();
+const settingsForm = reactive({
+  apiKey: settingsStore.apiKey.valueOf(),
+  defaultSystemMessage: settingsStore.defaultSystemMessage.valueOf(),
+});
+
+function cancel() {
+  show.value = false;
+  settingsForm.apiKey = settingsStore.apiKey;
+  settingsForm.defaultSystemMessage = settingsStore.defaultSystemMessage;
+}
 
 function save() {
-  settingsStore.apiKey = apiKeyInput.value;
+  settingsStore.apiKey = settingsForm.apiKey;
+  settingsStore.defaultSystemMessage = settingsForm.defaultSystemMessage;
   show.value = false;
 }
 </script>

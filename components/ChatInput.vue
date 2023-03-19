@@ -51,11 +51,13 @@
 <script setup lang="ts">
 import { DropdownOption } from 'naive-ui';
 import { useChatStore } from '~~/stores/chat';
+import { useSettingsStore } from '~~/stores/settings';
 
-const msg = ref('');
-const systemMsg = ref('');
-const showSystemMsg = ref(true);
 const chatStore = useChatStore();
+const settingsStore = useSettingsStore();
+const msg = ref('');
+const showSystemMsg = ref(true);
+const systemMsg = ref(settingsStore.defaultSystemMessage);
 
 function sendChat() {
   if (!msg.value) {
