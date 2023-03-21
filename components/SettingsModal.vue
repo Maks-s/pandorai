@@ -22,7 +22,6 @@
               v-model:value.trim="settingsForm.apiKey"
               type="text"
               placeholder="sk-..."
-              autofocus
             />
           </n-form-item>
 
