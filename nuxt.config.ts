@@ -26,6 +26,11 @@ export default defineNuxtConfig({
     ['@nuxtjs/eslint-module', { ignorePath: '.prettierignore' }],
   ],
 
+  piniaPersistedstate: {
+    debug: true,
+    storage: 'localStorage',
+  },
+
   ssr: false,
 
   unocss: {

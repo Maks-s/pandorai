@@ -9,8 +9,6 @@ export const useSettingsStore = defineStore(
     return { apiKey, defaultSystemMessage };
   },
   {
-    persist: {
-      storage: persistedState.localStorage,
-    },
+    persist: true,
   }
 );
