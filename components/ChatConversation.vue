@@ -1,7 +1,7 @@
 <template>
   <main>
     <ChatMessage
-      v-for="msg of chatStore.messages"
+      v-for="msg of chatStore.chatSession.messages"
       :key="msg.content"
       :msg="msg"
     />

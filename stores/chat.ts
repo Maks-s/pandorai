@@ -4,30 +4,35 @@ import {
 } from 'openai';
 import { defineStore } from 'pinia';
 
-export enum MessageAuthor {
+export enum ChatMessageAuthor {
   USER,
   AI,
   SYSTEM,
 }
 
-export interface Message {
-  author: MessageAuthor;
+export interface ChatMessage {
+  author: ChatMessageAuthor;
   content: string;
   id?: string;
 }
 
-const messageToOpenAiMessage = (msg: Message) => {
+export interface ChatSession {
+  messages: ChatMessage[];
+  title: string;
+}
+
+const chatMessageToOpenaiFormat = (msg: ChatMessage) => {
   let role: ChatCompletionRequestMessageRoleEnum;
   switch (msg.author) {
-    case MessageAuthor.AI:
+    case ChatMessageAuthor.AI:
       role = ChatCompletionRequestMessageRoleEnum.Assistant;
       break;
 
-    case MessageAuthor.SYSTEM:
+    case ChatMessageAuthor.SYSTEM:
       role = ChatCompletionRequestMessageRoleEnum.System;
       break;
 
-    case MessageAuthor.USER:
+    case ChatMessageAuthor.USER:
       role = ChatCompletionRequestMessageRoleEnum.User;
       break;
 
@@ -41,71 +46,95 @@ const messageToOpenAiMessage = (msg: Message) => {
   };
 };
 
-// Convert our message representation to OpenAI's one
-function messagesToConversation(
-  messages: Message[]
+// Convert our dialogue representation to OpenAI's one
+function chatSessionToOpenaiFormat(
+  chat: ChatSession
 ): ChatCompletionRequestMessage[] {
   const lastSystemMsg = findLast(
-    messages,
-    (v) => v.author === MessageAuthor.SYSTEM
+    chat.messages,
+    (v) => v.author === ChatMessageAuthor.SYSTEM
   );
 
-  const conv: ChatCompletionRequestMessage[] = [];
+  const chatFormat: ChatCompletionRequestMessage[] = [];
   if (lastSystemMsg) {
-    conv.push(messageToOpenAiMessage(lastSystemMsg));
+    chatFormat.push(chatMessageToOpenaiFormat(lastSystemMsg));
   }
 
-  conv.push(
-    ...messages
-      .filter((v) => v.author !== MessageAuthor.SYSTEM)
-      .map((msg) => messageToOpenAiMessage(msg))
+  chatFormat.push(
+    ...chat.messages
+      .filter((v) => v.author !== ChatMessageAuthor.SYSTEM)
+      .map((msg) => chatMessageToOpenaiFormat(msg))
   );
 
-  return conv;
+  return chatFormat;
+}
+
+function createChatSession(): ChatSession {
+  return {
+    messages: [],
+    title: 'New dialogue',
+  };
 }
 
 export const useChatStore = defineStore('chat', () => {
-  const messages = reactive([] as Message[]);
+  // Use ref because we need to often need to replace the whole ChatSession
+  const chatSession = ref(createChatSession());
+
+  const getSystemMessage = computed(() => {
+    return findLast(
+      chatSession.value.messages,
+      (v) => v.author === ChatMessageAuthor.SYSTEM
+    );
+  });
 
   function sendMessage(txt: string) {
-    messages.push({
-      author: MessageAuthor.USER,
+    chatSession.value.messages.push({
+      author: ChatMessageAuthor.USER,
       content: txt,
     });
 
-    messages.push({
-      author: MessageAuthor.AI,
+    chatSession.value.messages.push({
+      author: ChatMessageAuthor.AI,
       content: '',
     });
 
     OpenAI.sendMessage({
-      conversation: messagesToConversation(messages),
+      conversation: chatSessionToOpenaiFormat(chatSession.value),
 
       chunk(chunk) {
-        const lastMsg = messages[messages.length - 1];
+        const lastMsg =
+          chatSession.value.messages[chatSession.value.messages.length - 1];
         lastMsg.content += chunk;
       },
     });
   }
 
-  const getSystemMessage = computed(() => {
-    return findLast(messages, (v) => v.author === MessageAuthor.SYSTEM);
-  });
-
   function setSystemMessage(txt: string) {
-    const lastMsg = messages[messages.length - 1];
-    if (lastMsg?.author === MessageAuthor.SYSTEM) {
+    const lastMsg =
+      chatSession.value.messages[chatSession.value.messages.length - 1];
+    if (lastMsg?.author === ChatMessageAuthor.SYSTEM) {
       lastMsg.content = txt;
       return;
     }
 
-    messages.push({
-      author: MessageAuthor.SYSTEM,
+    chatSession.value.messages.push({
+      author: ChatMessageAuthor.SYSTEM,
       content: txt,
     });
   }
 
-  const isEmpty = computed(() => !messages.length);
+  function resetChatSession() {
+    chatSession.value = createChatSession();
+  }
 
-  return { getSystemMessage, isEmpty, messages, sendMessage, setSystemMessage };
+  const isEmpty = computed(() => !chatSession.value.messages.length);
+
+  return {
+    getSystemMessage,
+    isEmpty,
+    chatSession,
+    resetChatSession,
+    sendMessage,
+    setSystemMessage,
+  };
 });

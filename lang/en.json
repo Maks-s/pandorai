@@ -8,5 +8,6 @@
   "SAVE": "Save",
   "CHATGPT_WEBUI": "ChatGPT WebUI",
   "MESSAGE": "Message",
-  "SYSTEM_MESSAGE": "System message"
+  "SYSTEM_MESSAGE": "System message",
+  "CHAT_HISTORY": "Chat history"
 }

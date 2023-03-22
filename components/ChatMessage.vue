@@ -14,25 +14,25 @@
 
 <script setup lang="ts">
 import { useThemeVars } from 'naive-ui';
-import { Message, MessageAuthor } from '~~/stores/chat';
+import { ChatMessage, ChatMessageAuthor } from '~~/stores/chat';
 
 type MessageConfig = {
   bgClass: string;
   icon: string;
 };
 
-const props = defineProps<{ msg: Message }>();
+const props = defineProps<{ msg: ChatMessage }>();
 const themeVars = useThemeVars();
 
 function getConfig(): MessageConfig {
   switch (props.msg.author) {
-    case MessageAuthor.AI:
+    case ChatMessageAuthor.AI:
       return { bgClass: 'bg-ai', icon: 'i-custom-openai' };
 
-    case MessageAuthor.SYSTEM:
+    case ChatMessageAuthor.SYSTEM:
       return { bgClass: 'bg-system', icon: 'i-ph-monitor' };
 
-    case MessageAuthor.USER:
+    case ChatMessageAuthor.USER:
       return { bgClass: 'bg-user', icon: 'i-ph-user' };
   }
 }

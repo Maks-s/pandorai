@@ -51,9 +51,11 @@
 <script setup lang="ts">
 import { DropdownOption } from 'naive-ui';
 import { useChatStore } from '~~/stores/chat';
+import { useChatHistoryStore } from '~~/stores/chat-history';
 import { useSettingsStore } from '~~/stores/settings';
 
 const chatStore = useChatStore();
+const chatHistoryStore = useChatHistoryStore();
 const settingsStore = useSettingsStore();
 const msg = ref('');
 const showSystemMsg = ref(true);
@@ -62,6 +64,10 @@ const systemMsg = ref(settingsStore.defaultSystemMessage);
 function sendChat() {
   if (!msg.value) {
     return;
+  }
+
+  if (chatStore.isEmpty) {
+    chatHistoryStore.addToHistory(chatStore.chatSession);
   }
 
   if (chatStore.getSystemMessage?.content !== systemMsg.value) {
