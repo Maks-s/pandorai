@@ -70,7 +70,10 @@ function sendChat() {
     chatHistoryStore.addToHistory(chatStore.chatSession);
   }
 
-  if (chatStore.getSystemMessage?.content !== systemMsg.value) {
+  if (
+    systemMsg.value &&
+    chatStore.getSystemMessage?.content !== systemMsg.value
+  ) {
     setSystemMessage();
   }
 
