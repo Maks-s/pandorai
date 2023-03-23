@@ -1,20 +1,13 @@
-# ChatGPT Local WebUI
+# PandorAI
 
-*ChatGPT, but it's a local and/or static site*
+*One UI, multiple AI*
 
 ## Setup
 
 Make sure to install the dependencies:
 
 ```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install
+$ pnpm install
 ```
 
 ## Development Server
@@ -22,7 +15,7 @@ pnpm install
 Start the development server on http://localhost:3000
 
 ```bash
-npm run dev
+$ npm run dev
 ```
 
 ## Production

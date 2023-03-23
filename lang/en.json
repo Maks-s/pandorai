@@ -6,7 +6,7 @@
   "SETTINGS": "Settings",
   "OPENAI_API_KEY": "OpenAI API Key",
   "SAVE": "Save",
-  "CHATGPT_WEBUI": "ChatGPT WebUI",
+  "PROJECT_NAME": "PandorAI",
   "MESSAGE": "Message",
   "SYSTEM_MESSAGE": "System message",
   "CHAT_HISTORY": "Chat history"

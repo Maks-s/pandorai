@@ -1,7 +1,7 @@
 <template>
   <main class="flex flex-col justify-center items-center text-center">
     <h1 class="text-3xl font-bold">
-      {{ $t('CHATGPT_WEBUI') }}
+      {{ $t('PROJECT_NAME') }}
     </h1>
 
     <div class="grid grid-cols-3 pt-20 gap-8 w-full md:max-w-2xl lg:max-w-3xl">
