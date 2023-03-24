@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     '@unocss/nuxt',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
+    '@vueuse/nuxt',
     ['@nuxtjs/eslint-module', { ignorePath: '.prettierignore' }],
   ],
 
