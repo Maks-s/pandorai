@@ -48,10 +48,10 @@ const chatMessageToOpenaiFormat = (msg: ChatMessage) => {
 
 // Convert our dialogue representation to OpenAI's one
 function chatSessionToOpenaiFormat(
-  chat: ChatSession
+  messages: ChatMessage[]
 ): ChatCompletionRequestMessage[] {
   const lastSystemMsg = findLast(
-    chat.messages,
+    messages,
     (v) => v.author === ChatMessageAuthor.SYSTEM
   );
 
@@ -61,7 +61,7 @@ function chatSessionToOpenaiFormat(
   }
 
   chatFormat.push(
-    ...chat.messages
+    ...messages
       .filter((v) => v.author !== ChatMessageAuthor.SYSTEM)
       .map((msg) => chatMessageToOpenaiFormat(msg))
   );
@@ -88,25 +88,35 @@ export const useChatStore = defineStore('chat', () => {
     );
   });
 
-  function sendMessage() {
+  function sendMessage(sendHistory = true) {
     currentMessage.value = currentMessage.value.trim();
 
     if (!currentMessage.value) {
       return;
     }
 
-    chatSession.value.messages.push({
-      author: ChatMessageAuthor.USER,
-      content: currentMessage.value,
-    });
+    const messages: ChatMessage[] = [
+      {
+        author: ChatMessageAuthor.USER,
+        content: currentMessage.value,
+      },
+      {
+        author: ChatMessageAuthor.AI,
+        content: '',
+      },
+    ];
 
-    chatSession.value.messages.push({
-      author: ChatMessageAuthor.AI,
-      content: '',
-    });
+    chatSession.value.messages.push(...messages);
+
+    // Insert system message when sending without history
+    if (!sendHistory && getSystemMessage.value) {
+      messages.unshift(getSystemMessage.value);
+    }
 
     OpenAI.sendMessage({
-      conversation: chatSessionToOpenaiFormat(chatSession.value),
+      conversation: chatSessionToOpenaiFormat(
+        sendHistory ? chatSession.value.messages : messages
+      ).slice(0, -1), // Remove last empty message
 
       chunk(chunk) {
         const lastMsg =

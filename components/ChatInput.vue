@@ -66,6 +66,14 @@ const moreOptions: DropdownOption[] = [
       },
     },
   },
+  {
+    label: i18n.t('SEND_WITHOUT_HISTORY'),
+    props: {
+      onClick: () => {
+        chatStore.sendMessage(false);
+      },
+    },
+  },
 ];
 
 chatStore.$onAction(({ name }) => {

@@ -9,5 +9,7 @@
   "PROJECT_NAME": "PandorAI",
   "MESSAGE": "Message",
   "SYSTEM_MESSAGE": "System message",
-  "SEARCH": "Search"
+  "SEARCH": "Search",
+  "SHOW_SYSTEM_MESSAGE": "Show system message",
+  "SEND_WITHOUT_HISTORY": "Send without history"
 }
