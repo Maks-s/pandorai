@@ -3,6 +3,10 @@ import { FileSystemIconLoader } from '@iconify/utils/lib/loader/node-loaders';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    baseURL: '/pandorai/',
+  },
+
   css: ['@unocss/reset/tailwind.css'],
 
   i18n: {
@@ -44,10 +48,6 @@ export default defineNuxtConfig({
         },
       }),
     ],
-  },
-
-  router: {
-    base: '/pandorai/',
   },
 
   target: 'static',
