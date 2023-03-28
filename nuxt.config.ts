@@ -46,6 +46,12 @@ export default defineNuxtConfig({
     ],
   },
 
+  router: {
+    base: '/pandorai/',
+  },
+
+  target: 'static',
+
   typescript: {
     strict: true,
   },
