@@ -6,7 +6,7 @@
     :resizable="false"
     autofocus
     rows="1"
-    @keyup.enter="sendChat"
+    @keydown="handleKeyDown"
   >
     <template #suffix>
       <i
@@ -25,6 +25,19 @@ const emit = defineEmits<{ (e: 'sendChat', content: string): void }>();
 const chatStore = useChatStore();
 const chatHistoryStore = useChatHistoryStore();
 const msg = ref('');
+
+function handleKeyDown(e: KeyboardEvent) {
+  // Don't repeat when holding down a key
+  if (e.repeat) {
+    return;
+  }
+
+  // Send when pressing Enter, except if shift is pressed
+  if (!e.shiftKey && e.key === 'Enter') {
+    msg.value = msg.value.trim();
+    sendChat();
+  }
+}
 
 function sendChat() {
   if (!msg.value) {
