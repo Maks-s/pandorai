@@ -7,7 +7,7 @@
     <n-layout-content>
       <div class="flex flex-col flex-grow h-full">
         <ChatEmpty v-if="chatStore.isEmpty" class="flex-grow" />
-        <ChatConversation v-else class="flex-grow" />
+        <ChatConversation v-else class="flex-grow h-full overflow-auto" />
 
         <ChatInput />
       </div>
