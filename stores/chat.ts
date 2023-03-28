@@ -79,6 +79,7 @@ function createChatSession(): ChatSession {
 export const useChatStore = defineStore('chat', () => {
   // Use ref because we need to often need to replace the whole ChatSession
   const chatSession = ref(createChatSession());
+  const currentMessage = ref('');
 
   const getSystemMessage = computed(() => {
     return findLast(
@@ -87,10 +88,16 @@ export const useChatStore = defineStore('chat', () => {
     );
   });
 
-  function sendMessage(txt: string) {
+  function sendMessage() {
+    currentMessage.value = currentMessage.value.trim();
+
+    if (!currentMessage.value) {
+      return;
+    }
+
     chatSession.value.messages.push({
       author: ChatMessageAuthor.USER,
-      content: txt,
+      content: currentMessage.value,
     });
 
     chatSession.value.messages.push({
@@ -107,11 +114,14 @@ export const useChatStore = defineStore('chat', () => {
         lastMsg.content += chunk;
       },
     });
+
+    currentMessage.value = '';
   }
 
   function setSystemMessage(txt: string) {
     const lastMsg =
       chatSession.value.messages[chatSession.value.messages.length - 1];
+
     if (lastMsg?.author === ChatMessageAuthor.SYSTEM) {
       lastMsg.content = txt;
       return;
@@ -130,6 +140,7 @@ export const useChatStore = defineStore('chat', () => {
   const isEmpty = computed(() => !chatSession.value.messages.length);
 
   return {
+    currentMessage,
     getSystemMessage,
     isEmpty,
     chatSession,

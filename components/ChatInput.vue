@@ -2,7 +2,7 @@
   <div class="p-4">
     <n-input
       v-if="showSystemMsg"
-      v-model:value.trim="systemMsg"
+      v-model:value="systemMsg"
       type="textarea"
       :placeholder="$t('SYSTEM_MESSAGE')"
       :resizable="false"
@@ -38,6 +38,7 @@ import { DropdownOption } from 'naive-ui';
 import { useChatStore } from '~~/stores/chat';
 import { useSettingsStore } from '~~/stores/settings';
 
+const i18n = useI18n();
 const chatStore = useChatStore();
 const settingsStore = useSettingsStore();
 const showSystemMsg = ref(true);
@@ -46,18 +47,19 @@ const systemMsg = ref(settingsStore.defaultSystemMessage);
 function setSystemMessage() {
   if (
     !systemMsg.value ||
-    chatStore.getSystemMessage?.content === systemMsg.value
+    chatStore.getSystemMessage?.content === systemMsg.value ||
+    !chatStore.currentMessage
   ) {
     return;
   }
 
-  chatStore.setSystemMessage(systemMsg.value);
+  chatStore.setSystemMessage(systemMsg.value.trim());
   showSystemMsg.value = false;
 }
 
 const moreOptions: DropdownOption[] = [
   {
-    label: 'Show system message',
+    label: i18n.t('SHOW_SYSTEM_MESSAGE'),
     props: {
       onClick: () => {
         showSystemMsg.value = !showSystemMsg.value;
@@ -65,4 +67,12 @@ const moreOptions: DropdownOption[] = [
     },
   },
 ];
+
+chatStore.$onAction(({ name }) => {
+  if (name !== 'sendMessage') {
+    return;
+  }
+
+  setSystemMessage();
+});
 </script>
