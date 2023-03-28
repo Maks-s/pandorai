@@ -1,3 +1,8 @@
+# THIS IS WIP, YOU SHOULD COME BACK LATER
+
+<br /><br /><br /><br /><br /><br />
+I warned you<br /><br />
+
 # PandorAI
 
 *One UI, multiple AI*
@@ -31,3 +36,9 @@ Locally preview production build:
 ```bash
 npm run preview
 ```
+
+## Very Special Message
+
+Congrats, you read this note before I announced PandorAI to the world !<br />
+Or you just checked out an old commit...<br>
+Either way, you win 1 friendship point :love:
