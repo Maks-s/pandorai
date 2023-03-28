@@ -18,22 +18,7 @@
     </n-input>
 
     <div class="flex items-center">
-      <n-input
-        v-model:value.trim="msg"
-        type="textarea"
-        :placeholder="$t('MESSAGE')"
-        :resizable="false"
-        autofocus
-        rows="1"
-        @keyup.enter="sendChat"
-      >
-        <template #suffix>
-          <i
-            class="i-ph-paper-plane-tilt w-5 h-5 cursor-pointer"
-            @click="sendChat"
-          />
-        </template>
-      </n-input>
+      <ChatInputText @send-chat="setSystemMessage" />
 
       <n-dropdown trigger="click" :options="moreOptions">
         <n-button quaternary circle class="!ml-2">
@@ -51,37 +36,21 @@
 <script setup lang="ts">
 import { DropdownOption } from 'naive-ui';
 import { useChatStore } from '~~/stores/chat';
-import { useChatHistoryStore } from '~~/stores/chat-history';
 import { useSettingsStore } from '~~/stores/settings';
 
 const chatStore = useChatStore();
-const chatHistoryStore = useChatHistoryStore();
 const settingsStore = useSettingsStore();
-const msg = ref('');
 const showSystemMsg = ref(true);
 const systemMsg = ref(settingsStore.defaultSystemMessage);
 
-function sendChat() {
-  if (!msg.value) {
+function setSystemMessage() {
+  if (
+    !systemMsg.value ||
+    chatStore.getSystemMessage?.content === systemMsg.value
+  ) {
     return;
   }
 
-  if (chatStore.isEmpty) {
-    chatHistoryStore.addToHistory(chatStore.chatSession);
-  }
-
-  if (
-    systemMsg.value &&
-    chatStore.getSystemMessage?.content !== systemMsg.value
-  ) {
-    setSystemMessage();
-  }
-
-  chatStore.sendMessage(msg.value);
-  msg.value = '';
-}
-
-function setSystemMessage() {
   chatStore.setSystemMessage(systemMsg.value);
   showSystemMsg.value = false;
 }
