@@ -7,8 +7,7 @@
 <script setup lang="ts">
 import { GlobalThemeOverrides } from 'naive-ui';
 
-const { t } = useI18n?.();
-useHead({ title: t('PROJECT_NAME') });
+useHead({ title: 'PROJECT_NAME' });
 
 const themeColors = {
   primary: '#38bdf8',
