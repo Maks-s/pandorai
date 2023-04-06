@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-nuxt-build-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Static HTML export with Nuxt
         run: pnpm run generate
