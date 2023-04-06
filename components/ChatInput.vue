@@ -38,6 +38,7 @@ import { DropdownOption } from 'naive-ui';
 import { useChatStore } from '~~/stores/chat';
 import { useSettingsStore } from '~~/stores/settings';
 
+const { t } = useI18n();
 const chatStore = useChatStore();
 const settingsStore = useSettingsStore();
 const showSystemMsg = ref(true);
@@ -58,7 +59,7 @@ function setSystemMessage() {
 
 const moreOptions: DropdownOption[] = [
   {
-    label: 'SHOW_SYSTEM_MESSAGE',
+    label: t('SHOW_SYSTEM_MESSAGE'),
     props: {
       onClick: () => {
         showSystemMsg.value = !showSystemMsg.value;
@@ -66,7 +67,7 @@ const moreOptions: DropdownOption[] = [
     },
   },
   {
-    label: 'SEND_WITHOUT_HISTORY',
+    label: t('SEND_WITHOUT_HISTORY'),
     props: {
       onClick: () => {
         chatStore.sendMessage(false);
